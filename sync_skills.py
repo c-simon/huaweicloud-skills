@@ -53,9 +53,13 @@ SERVICE_FROM_DESCRIPTION_RE = re.compile(
 )
 
 def download_zip(url):
-    """下载 zip 文件"""
+    """Download zip file with browser-like headers"""
     logger.info(f'Downloading zip from: {url}')
-    req = urllib.request.Request(url, headers={'User-Agent': 'GitHubActions/sync-skills'})
+    # 定义一个常见的浏览器请求头，让服务器认为我们是一个真实的浏览器
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    }
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=120) as resp:
         data = resp.read()
     logger.info(f'Downloaded {len(data)} bytes')
