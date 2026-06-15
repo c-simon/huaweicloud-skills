@@ -20,6 +20,6 @@ jobs:
           # 添加上游仓库地址（请替换为原始仓库的实际地址）
           git remote add upstream https://github.com/huaweicloud/huaweicloud-skills.git
           git fetch upstream
-          git checkout main
-          git merge upstream/main
-          git push origin main
+          git checkout master
+          git merge upstream/master
+          git push origin master
