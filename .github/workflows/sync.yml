@@ -2,23 +2,22 @@ name: 同步上游仓库
 
 on:
   schedule:
-    - cron: '0 2 * * *'   # 每天UTC时间2点执行
-  workflow_dispatch:
+    - cron: '0 2 * * *'   # 每天 UTC 2:00 执行
+  workflow_dispatch:       # 支持手动触发
 
-# 关键：授予写入仓库内容的权限
 permissions:
-  contents: write
+  contents: write          # 授予写入权限
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        # persist-credentials 默认为 true，无需额外设置
       - name: 同步上游仓库
         run: |
+          git remote remove upstream 2>/dev/null || true
           git remote add upstream https://github.com/huaweicloud/huaweicloud-skills.git
           git fetch upstream
           git checkout master
-          git merge upstream/master
+          git merge upstream/master --allow-unrelated-histories --no-edit
           git push origin master
